@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useCallback, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { GitBranch, Star, GitFork, Calendar, FileText, Code2 } from 'lucide-react';
+import { GitBranch, Star, GitFork, Calendar, FileText, Code2, AlertTriangle } from 'lucide-react';
 
 const repositories = [
   {
@@ -11,7 +11,9 @@ const repositories = [
     stars: 28,
     forks: 4,
     lastUpdate: '3 weeks ago',
-    readme: `# Safety Companion
+    readme: `# Safety Companion (DEPRECATED)
+
+⚠️ **This project has been deprecated. Please see Safety-Compv3 for the latest version.**
 
 A comprehensive safety platform providing real-time safety information and resources to help individuals and organizations make informed decisions about their safety and security.
 
@@ -35,7 +37,57 @@ Visit [safety-companion.com](https://safety-companion.com) to explore the platfo
 ## Mission
 Empowering communities with accessible safety information and tools to make informed decisions about their personal and collective security.`,
     private: false,
-    topics: ['safety', 'web-app', 'typescript', 'react', 'security']
+    topics: ['safety', 'web-app', 'typescript', 'react', 'security'],
+    deprecated: true
+  },
+  {
+    id: 5,
+    name: 'Safety-Compv3',
+    description: 'Next-generation Safety Companion platform with enhanced AI capabilities and modern architecture',
+    language: 'TypeScript',
+    stars: 12,
+    forks: 2,
+    lastUpdate: '2 days ago',
+    readme: `# Safety-Compv3
+
+The next generation Safety Companion platform - a complete rebuild with enhanced AI capabilities, improved performance, and modern architecture.
+
+## What's New in v3
+- 🚀 Complete architecture overhaul for better performance
+- 🤖 Enhanced AI-powered safety analysis
+- 📱 Improved mobile responsiveness
+- ⚡ Faster load times and optimized state management
+- 🔄 Real-time sync capabilities
+- 🎨 Modern UI/UX design
+
+## Features
+- 🚨 Advanced real-time safety alerts
+- 📍 Enhanced location-based safety intelligence
+- 🔒 Comprehensive safety resources and recommendations
+- 📊 AI-driven safety analytics and insights
+- 🌐 Expanded community safety network
+- 🔔 Smart notification system
+
+## Technology Stack
+- React 18 with TypeScript
+- Node.js backend with enhanced APIs
+- AI/ML integration for intelligent analysis
+- Real-time data processing
+- Modern state management
+
+## Getting Started
+\`\`\`bash
+git clone https://github.com/HeyBatlle1/Safety-Compv3.git
+cd Safety-Compv3
+npm install
+npm run dev
+\`\`\`
+
+## Migration from v2
+If you're migrating from Safety-Companion.com, please refer to our migration guide in the docs folder.`,
+    private: false,
+    topics: ['safety', 'web-app', 'typescript', 'react', 'ai', 'next-gen'],
+    deprecated: false
   },
   {
     id: 2,
@@ -176,6 +228,49 @@ An AI-powered medical documentation and analysis platform designed to streamline
 - Audit logging and monitoring`,
     private: false,
     topics: ['ai', 'medical-documentation', 'nlp', 'healthcare', 'python']
+  },
+  {
+    id: 6,
+    name: 'ToS-Salad',
+    description: 'Non-profit educational platform making Terms of Service documents accessible and understandable',
+    language: 'TypeScript',
+    stars: 8,
+    forks: 2,
+    lastUpdate: '1 week ago',
+    readme: `# ToS Salad
+
+A non-profit, open-source educational platform designed to make Terms of Service documents accessible and understandable to the general public.
+
+## Mission
+Addressing the collapse of informed consent in the digital economy. ToS documents deliberately use complexity to obscure user agreements, hiding significant data harvesting practices behind impenetrable legalese.
+
+## Key Features
+- 🚩 **Red Flag Detector**: Identifies concerning clauses in plain language
+- 📝 **Quote and Explain**: Extracts specific clauses verbatim with neutral explanations
+- ⚖️ **Fair Use Framework**: Operates under educational Fair Use protections
+- 🔓 **Open Source**: Full code transparency with community auditing
+
+## Technology Stack
+- TypeScript (91.6%)
+- JavaScript (7.6%)
+- AGPL-3.0 licensed
+- AI-assisted analysis with human review workflows
+- Sustainable architecture with caching and cost management
+
+## Development Status
+Currently in initialization phase with planned components:
+- Core architecture
+- AI pipeline development
+- Human review workflows
+- Curated document library
+- Community feedback systems
+
+## Funding & Governance
+Community-funded non-profit model with no profit generation. Seeks support through donations, grants, and fiscal sponsorships.
+
+**Note**: This project provides educational analysis only and is not legal advice.`,
+    private: false,
+    topics: ['education', 'open-source', 'legal', 'ai', 'typescript', 'non-profit']
   }
 ];
 
@@ -188,8 +283,12 @@ const languageColors = {
   Go: '#00add8'
 };
 
-export const GitRepositories = () => {
+export const GitRepositories = memo(() => {
   const [selectedRepo, setSelectedRepo] = useState<number | null>(null);
+
+  const handleRepoSelect = useCallback((id: number) => {
+    setSelectedRepo(id);
+  }, []);
 
   return (
     <section id="repos" className="py-32 px-6">
@@ -222,7 +321,7 @@ export const GitRepositories = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 whileHover={{ scale: 1.02, x: 10 }}
-                onClick={() => setSelectedRepo(repo.id)}
+                onClick={() => handleRepoSelect(repo.id)}
                 className={`glass rounded-2xl p-6 cursor-pointer transition-all duration-300 border ${
                   selectedRepo === repo.id 
                     ? 'border-primary/50 shadow-cyber' 
@@ -236,6 +335,12 @@ export const GitRepositories = () => {
                     <h3 className="font-mono font-semibold text-lg text-foreground">
                       {repo.name}
                     </h3>
+                    {repo.deprecated && (
+                      <div className="flex items-center space-x-1 px-2 py-0.5 bg-yellow-500/20 border border-yellow-500/50 rounded">
+                        <AlertTriangle className="w-3 h-3 text-yellow-400" />
+                        <span className="text-xs font-mono text-yellow-400">DEPRECATED</span>
+                      </div>
+                    )}
                   </div>
                   <div className="flex items-center space-x-4 text-sm text-muted-foreground">
                     <div className="flex items-center space-x-1">
@@ -371,4 +476,6 @@ export const GitRepositories = () => {
       </div>
     </section>
   );
-};
+});
+
+GitRepositories.displayName = 'GitRepositories';

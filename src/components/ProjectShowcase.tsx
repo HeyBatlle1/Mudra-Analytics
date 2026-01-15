@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useMemo, useCallback, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, Github, Code, Zap, Brain, Database } from 'lucide-react';
+import { ExternalLink, Github, Code, Zap, Brain, Database, AlertTriangle, Scale } from 'lucide-react';
 
 const projects = [
   {
@@ -13,7 +13,21 @@ const projects = [
     color: 'from-emerald-500 to-blue-500',
     github: 'https://github.com/HeyBatlle1/Safety-Companion.com',
     demo: 'https://safety-companion.com',
-    featured: true
+    featured: true,
+    deprecated: true
+  },
+  {
+    id: 5,
+    title: 'Safety-Compv3',
+    description: 'Next-generation Safety Companion platform with enhanced AI capabilities, improved performance, and modern architecture. The successor to Safety-Companion.com with new features and optimizations.',
+    tech: ['React', 'TypeScript', 'Node.js', 'AI/ML'],
+    category: 'Enterprise',
+    icon: Brain,
+    color: 'from-cyan-500 to-emerald-500',
+    github: 'https://github.com/HeyBatlle1/Safety-Compv3',
+    demo: null,
+    featured: true,
+    deprecated: false
   },
   {
     id: 2,
@@ -50,18 +64,46 @@ const projects = [
     github: 'https://github.com/HeyBatlle1/DocAmy',
     demo: null,
     featured: false
+  },
+  {
+    id: 6,
+    title: 'ToS Salad',
+    description: 'Non-profit, open-source educational platform making Terms of Service documents accessible and understandable. Features a Red Flag Detector that identifies concerning clauses in plain language, using AI-assisted analysis with human review workflows.',
+    tech: ['TypeScript', 'JavaScript', 'AI/ML', 'AGPL-3.0'],
+    category: 'Open Source',
+    icon: Scale,
+    color: 'from-amber-500 to-red-500',
+    github: 'https://github.com/HeyBatlle1/ToS-Salad',
+    demo: null,
+    featured: true,
+    deprecated: false
   }
 ];
 
-const categories = ['All', 'Enterprise', 'Healthcare', 'Backend'];
+const categories = ['All', 'Enterprise', 'Healthcare', 'Backend', 'Open Source'];
 
-export const ProjectShowcase = () => {
+export const ProjectShowcase = memo(() => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
 
-  const filteredProjects = selectedCategory === 'All' 
-    ? projects 
-    : projects.filter(project => project.category === selectedCategory);
+  const filteredProjects = useMemo(() =>
+    selectedCategory === 'All'
+      ? projects
+      : projects.filter(project => project.category === selectedCategory),
+    [selectedCategory]
+  );
+
+  const handleCategoryChange = useCallback((category: string) => {
+    setSelectedCategory(category);
+  }, []);
+
+  const handleMouseEnter = useCallback((id: number) => {
+    setHoveredProject(id);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setHoveredProject(null);
+  }, []);
 
   return (
     <section id="projects" className="py-32 px-6">
@@ -93,7 +135,7 @@ export const ProjectShowcase = () => {
           {categories.map((category) => (
             <motion.button
               key={category}
-              onClick={() => setSelectedCategory(category)}
+              onClick={() => handleCategoryChange(category)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className={`px-6 py-3 rounded-xl font-mono text-sm transition-all duration-300 ${
@@ -128,8 +170,8 @@ export const ProjectShowcase = () => {
                   rotateY: 5,
                   transition: { duration: 0.3 }
                 }}
-                onMouseEnter={() => setHoveredProject(project.id)}
-                onMouseLeave={() => setHoveredProject(null)}
+                onMouseEnter={() => handleMouseEnter(project.id)}
+                onMouseLeave={handleMouseLeave}
                 className={`relative group cursor-pointer ${
                   project.featured ? 'md:col-span-2' : ''
                 }`}
@@ -156,13 +198,21 @@ export const ProjectShowcase = () => {
                         </div>
                       </div>
                       
-                      {project.featured && (
-                        <motion.div
-                          animate={{ rotate: 360 }}
-                          transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                          className="w-8 h-8 border-2 border-white/50 rounded-full border-t-white"
-                        />
-                      )}
+                      <div className="flex items-center space-x-2">
+                        {project.deprecated && (
+                          <div className="flex items-center space-x-1 px-2 py-1 bg-yellow-500/20 border border-yellow-500/50 rounded-lg">
+                            <AlertTriangle className="w-3 h-3 text-yellow-400" />
+                            <span className="text-xs font-mono text-yellow-400">DEPRECATED</span>
+                          </div>
+                        )}
+                        {project.featured && (
+                          <motion.div
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                            className="w-8 h-8 border-2 border-white/50 rounded-full border-t-white"
+                          />
+                        )}
+                      </div>
                     </div>
                   </div>
 
@@ -239,4 +289,6 @@ export const ProjectShowcase = () => {
       </div>
     </section>
   );
-};
+});
+
+ProjectShowcase.displayName = 'ProjectShowcase';

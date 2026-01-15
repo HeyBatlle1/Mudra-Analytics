@@ -25,9 +25,9 @@ export const ContactSection = () => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Send email to jobboxproject@gmail.com
+    // Send email to bradleeb1301@trailmedic.org
     const emailData = {
-      to: 'jobboxproject@gmail.com',
+      to: 'bradleeb1301@trailmedic.org',
       subject: `New Contact Form Submission from ${formData.name}`,
       body: `
         Name: ${formData.name}
@@ -38,7 +38,7 @@ export const ContactSection = () => {
     };
     
     // Create mailto link for now (can be replaced with actual API call)
-    const mailtoLink = `mailto:jobboxproject@gmail.com?subject=${encodeURIComponent(emailData.subject)}&body=${encodeURIComponent(emailData.body)}`;
+    const mailtoLink = `mailto:bradleeb1301@trailmedic.org?subject=${encodeURIComponent(emailData.subject)}&body=${encodeURIComponent(emailData.body)}`;
     window.open(mailtoLink, '_blank');
     
     await new Promise(resolve => setTimeout(resolve, 1000));
@@ -193,14 +193,14 @@ export const ContactSection = () => {
 
               <div className="space-y-4">
                 <motion.a
-                  href="mailto:jobboxproject@gmail.com"
+                  href="mailto:bradleeb1301@trailmedic.org"
                   whileHover={{ scale: 1.02, x: 10 }}
                   className="flex items-center space-x-4 p-4 bg-secondary/30 rounded-xl hover:bg-secondary/50 transition-all duration-300 group"
                 >
                   <Mail className="w-5 h-5 text-primary group-hover:text-primary-glow transition-colors" />
                   <div>
                     <div className="font-mono font-semibold">Email</div>
-                    <div className="text-sm text-muted-foreground">jobboxproject@gmail.com</div>
+                    <div className="text-sm text-muted-foreground">bradleeb1301@trailmedic.org</div>
                   </div>
                 </motion.a>
 
@@ -219,7 +219,7 @@ export const ContactSection = () => {
                 </motion.a>
 
                 <motion.a
-                  href="https://github.com/bradleeburton"
+                  href="https://github.com/HeyBatlle1"
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.02, x: 10 }}

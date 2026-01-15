@@ -5,7 +5,7 @@ import { Terminal, ChevronRight, Edit, Save, X } from 'lucide-react';
 const defaultCommands = [
   { command: 'whoami', output: 'bradlee_burton' },
   { command: 'cat skills.txt', output: 'React • TypeScript • Python • AI/ML • Node.js' },
-  { command: 'pwd', output: '/home/hesperides-ai/portfolio' },
+  { command: 'pwd', output: '/home/mudra-analytics/portfolio' },
   { command: 'ls experience/', output: 'software_engineer.exp  ai_developer.exp  full_stack.exp' },
   { command: 'echo $MISSION', output: 'Building the future with intelligent code' },
 ];
@@ -104,7 +104,7 @@ export const CustomTerminalHero = () => {
                   <div className="flex items-center space-x-2 ml-4">
                     <Terminal className="w-4 h-4 text-muted-foreground" />
                     <span className="font-mono text-sm text-muted-foreground">
-                      hesperides-ai@portfolio:~
+                      mudra-analytics@portfolio:~
                     </span>
                   </div>
                 </div>
@@ -127,7 +127,7 @@ export const CustomTerminalHero = () => {
                 {!isEditing ? (
                   <>
                     <div className="text-terminal-dim mb-4">
-                      Welcome to Hesperides AI Portfolio Terminal v2.0.1
+                      Welcome to Mudra Analytics Portfolio Terminal v2.0.1
                     </div>
                     <pre className="text-foreground whitespace-pre-wrap">
                       {displayedText}

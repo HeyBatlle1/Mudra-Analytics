@@ -1,38 +1,49 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, memo } from 'react';
 
-export const MatrixRain = () => {
+export const MatrixRain = memo(() => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const animationRef = useRef<number>();
+  const dropsRef = useRef<number[]>([]);
+  const lastTimeRef = useRef<number>(0);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', { alpha: false });
     if (!ctx) return;
-
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
 
     const matrix = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%+-/~{[|`]}";
     const matrixArray = matrix.split("");
+    const fontSize = 14;
+    const frameInterval = 50; // ~20fps is enough for matrix effect
 
-    const fontSize = 10;
-    const columns = canvas.width / fontSize;
+    const initCanvas = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const columns = Math.floor(canvas.width / fontSize);
+      dropsRef.current = Array(columns).fill(1);
+    };
 
-    const drops: number[] = [];
-    for (let x = 0; x < columns; x++) {
-      drops[x] = 1;
-    }
+    initCanvas();
 
-    function draw() {
+    const draw = (timestamp: number) => {
       if (!ctx || !canvas) return;
-      
-      ctx.fillStyle = 'rgba(32, 39, 49, 0.04)';
+
+      // Throttle to ~20fps for performance
+      if (timestamp - lastTimeRef.current < frameInterval) {
+        animationRef.current = requestAnimationFrame(draw);
+        return;
+      }
+      lastTimeRef.current = timestamp;
+
+      ctx.fillStyle = 'rgba(32, 39, 49, 0.05)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       ctx.fillStyle = '#00ff41';
-      ctx.font = fontSize + 'px monospace';
+      ctx.font = `${fontSize}px monospace`;
 
+      const drops = dropsRef.current;
       for (let i = 0; i < drops.length; i++) {
         const text = matrixArray[Math.floor(Math.random() * matrixArray.length)];
         ctx.fillText(text, i * fontSize, drops[i] * fontSize);
@@ -42,19 +53,25 @@ export const MatrixRain = () => {
         }
         drops[i]++;
       }
-    }
 
-    const interval = setInterval(draw, 35);
-
-    const handleResize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      animationRef.current = requestAnimationFrame(draw);
     };
 
-    window.addEventListener('resize', handleResize);
+    animationRef.current = requestAnimationFrame(draw);
+
+    let resizeTimeout: ReturnType<typeof setTimeout>;
+    const handleResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(initCanvas, 150);
+    };
+
+    window.addEventListener('resize', handleResize, { passive: true });
 
     return () => {
-      clearInterval(interval);
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+      clearTimeout(resizeTimeout);
       window.removeEventListener('resize', handleResize);
     };
   }, []);
@@ -69,8 +86,11 @@ export const MatrixRain = () => {
         left: 0,
         zIndex: -1,
         opacity: 0.08,
-        pointerEvents: 'none'
+        pointerEvents: 'none',
+        willChange: 'contents'
       }}
     />
   );
-};
+});
+
+MatrixRain.displayName = 'MatrixRain';

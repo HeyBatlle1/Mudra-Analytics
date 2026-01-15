@@ -24,7 +24,7 @@ export const Navigation = () => {
             whileHover={{ scale: 1.05 }}
             className="font-cyber text-xl font-bold text-gradient-primary"
           >
-            HESPERIDES-AI
+            MUDRA-ANALYTICS
           </motion.div>
 
           {/* Navigation Items */}

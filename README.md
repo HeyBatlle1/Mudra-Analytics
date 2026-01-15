@@ -1,73 +1,67 @@
-# Welcome to your Lovable project
+# Mudra Analytics Portfolio
 
-## Project info
+A modern, cyberpunk-themed portfolio website showcasing software engineering and AI development projects.
 
-**URL**: https://lovable.dev/projects/3496026b-5ae6-4a06-9f40-737a1c0807d3
+## Features
 
-## How can I edit this code?
+- Dark cyberpunk design with Matrix rain background
+- Interactive terminal hero section
+- Project showcase with category filtering
+- GitHub repositories viewer with README preview
+- Contact form with social links
+- Optimized performance with React.memo and useMemo
 
-There are several ways of editing your application.
+## Tech Stack
 
-**Use Lovable**
+- **Framework**: React 18 with TypeScript
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS with custom cyberpunk theme
+- **UI Components**: Shadcn/ui, Radix UI
+- **Animations**: Framer Motion
+- **Icons**: Lucide React
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/3496026b-5ae6-4a06-9f40-737a1c0807d3) and start prompting.
+## Getting Started
 
-Changes made via Lovable will be committed automatically to this repo.
+```bash
+# Clone the repository
+git clone https://github.com/HeyBatlle1/hesperides-digital-forge.git
 
-**Use your preferred IDE**
+# Navigate to directory
+cd hesperides-digital-forge
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+# Install dependencies
+npm install
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The app will be available at `http://localhost:8080`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Build for Production
 
-**Use GitHub Codespaces**
+```bash
+npm run build
+npm run preview
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Project Structure
 
-## What technologies are used for this project?
+```
+src/
+├── components/     # React components
+│   ├── ui/        # Shadcn/ui components
+│   ├── Navigation.tsx
+│   ├── MatrixRain.tsx
+│   ├── ProjectShowcase.tsx
+│   ├── GitRepositories.tsx
+│   └── ContactSection.tsx
+├── pages/         # Page components
+├── hooks/         # Custom React hooks
+├── lib/           # Utility functions
+└── index.css      # Global styles & design system
+```
 
-This project is built with:
+## License
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/3496026b-5ae6-4a06-9f40-737a1c0807d3) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+MIT License - Bradlee Burton

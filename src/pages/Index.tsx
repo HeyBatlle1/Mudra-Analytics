@@ -35,7 +35,7 @@ const Index = () => {
           <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
             <div className="text-center md:text-left">
               <div className="font-cyber text-lg font-bold text-gradient-primary mb-1">
-                HESPERIDES-AI
+                MUDRA-ANALYTICS
               </div>
               <div className="text-sm text-muted-foreground font-mono">
                 © 2024 Bradlee Burton. Crafted with precision.
